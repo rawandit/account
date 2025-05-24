@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستەمی محاسبی</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+        }
+
+        .section {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: right;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <!-- پەڕگەی لۆگین -->
+    <div id="login-page" class="page active">
+        <h2>چوونەژوور</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="ناوی بەکارهێنەر" required>
+            <input type="password" id="password" placeholder="وشەی نهێنی" required>
+            <button type="submit">چوونەژوور</button>
+        </form>
+    </div>
+
+    <!-- پەڕگەی سەرەکی دوای لۆگین -->
+    <div id="main-page" class="page">
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('products')">کاڵاکان</a></li>
+                <li><a href="#" onclick="showSection('purchases')">کڕین</a></li>
+                <li><a href="#" onclick="showSection('sales')">فرۆشتن</a></li>
+                <li><a href="#" onclick="showSection('debts')">قەرزداران</a></li>
+                <li><a href="#" onclick="showSection('invoices')">ئینڤۆیز</a></li>
+                <li><a href="#" onclick="logout()">چوونەدەر</a></li>
+            </ul>
+        </nav>
+
+        <!-- بەشی کاڵاکان -->
+        <div id="products" class="section">
+            <h2>کاڵاکان</h2>
+            <form id="product-form">
+                <input type="text" id="product-name" placeholder="ناوی کاڵا" required>
+                <input type="number" id="product-price" placeholder="نرخی کاڵا" required>
+                <input type="number" id="product-quantity" placeholder="ژمارە" required>
+                <button type="submit">زیادکردنی کاڵا</button>
+            </form>
+            <table id="product-table">
+                <thead>
+                    <tr>
+                        <th>ناوی کاڵا</th>
+                        <th>نرخ</th>
+                        <th>ژمارە</th>
+                    </tr>
+                </thead>
+                <tbody id="product-list"></tbody>
+            </table>
+        </div>
+
+        <!-- بەشی کڕین -->
+        <div id="purchases" class="section" style="display: none;">
+            <h2>کڕین</h2>
+            <form id="purchase-form">
+                <input type="text" id="purchase-product" placeholder="ناوی کاڵا" required>
+                <input type="number" id="purchase-quantity" placeholder="ژمارە" required>
+                <button type="submit">تۆمارکردنی کڕین</button>
+            </form>
+            <table id="purchase-table">
+                <thead>
+                    <tr>
+                        <th>ناوی کاڵا</th>
+                        <th>ژمارە</th>
+                        <th>کاتی کڕین</th>
+                    </tr>
+                </thead>
+                <tbody id="purchase-list"></tbody>
+            </table>
+        </div>
+
+        <!-- بەشی فرۆشتن -->
+        <div id="sales" class="section" style="display: none;">
+            <h2>فرۆشتن</h2>
+            <form id="sale-form">
+                <input type="text" id="sale-product" placeholder="ناوی کاڵا" required>
+                <input type="number" id="sale-quantity" placeholder="ژمارە" required>
+                <button type="submit">تۆمارکردنی فرۆشتن</button>
+            </form>
+            <table id="sale-table">
+                <thead>
+                    <tr>
+                        <th>ناوی کاڵا</th>
+                        <th>ژمارە</th>
+                        <th>کاتی فرۆشتن</th>
+                    </tr>
+                </thead>
+                <tbody id="sale-list"></tbody>
+            </table>
+        </div>
+
+        <!-- بەشی قەرزداران -->
+        <div id="debts" class="section" style="display: none;">
+            <h2>قەرزداران</h2>
+            <form id="debt-form">
+                <input type="text" id="debtor-name" placeholder="ناوی قەرزدار" required>
+                <input type="number" id="debt-amount" placeholder="بڕی قەرز" required>
+                <button type="submit">تۆمارکردنی قەرز</button>
+            </form>
+            <table id="debt-table">
+                <thead>
+                    <tr>
+                        <th>ناوی قەرزدار</th>
+                        <th>بڕی قەرز</th>
+                    </tr>
+                </thead>
+                <tbody id="debt-list"></tbody>
+            </table>
+        </div>
+
+        <!-- بەشی ئینڤۆیز -->
+        <div id="invoices" class="section" style="display: none;">
+            <h2>ئینڤۆیز</h2>
+            <form id="invoice-form">
+                <input type="text" id="invoice-customer" placeholder="ناوی کڕیار" required>
+                <input type="text" id="invoice-product" placeholder="ناوی کاڵا" required>
+                <input type="number" id="invoice-quantity" placeholder="ژمارە" required>
+                <button type="submit">دروستکردنی ئینڤۆیز</button>
+            </form>
+            <table id="invoice-table">
+                <thead>
+                    <tr>
+                        <th>ناوی کڕیار</th>
+                        <th>ناوی کاڵا</th>
+                        <th>ژمارە</th>
+                        <th>کات</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // لۆگین
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // لۆجینی سادە (بۆ نموونە)
+            if (username === 'admin' && password === '1234') {
+                document.getElementById('login-page').classList.remove('active');
+                document.getElementById('main-page').classList.add('active');
+            } else {
+                alert('ناوی بەکارهێنەر یان وشەی نهێنی هەڵەیە');
+            }
+        });
+
+        // وەرگرتنی بەشەکان
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // چوونەدەر
+        function logout() {
+            document.getElementById('main-page').classList.remove('active');
+            document.getElementById('login-page').classList.add('active');
+            document.getElementById('login-form').reset();
+        }
+
+        // تۆمارکردنی کاڵا
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('product-name').value;
+            const price = document.getElementById('product-price').value;
+            const quantity = document.getElementById('product-quantity').value;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${name}</td><td>${price}</td><td>${quantity}</td>`;
+            document.getElementById('product-list').appendChild(row);
+
+            // پاککردنەوەی فۆرم
+            document.getElementById('product-form').reset();
+        });
+
+        // تۆمارکردنی کڕین
+        document.getElementById('purchase-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const product = document.getElementById('purchase-product').value;
+            const quantity = document.getElementById('purchase-quantity').value;
+            const date = new Date().toLocaleString('ku-IQ');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${product}</td><td>${quantity}</td><td>${date}</td>`;
+            document.getElementById('purchase-list').appendChild(row);
+
+            document.getElementById('purchase-form').reset();
+        });
+
+        // تۆمارکردنی فرۆشتن
+        document.getElementById('sale-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const product = document.getElementById('sale-product').value;
+            const quantity = document.getElementById('sale-quantity').value;
+            const date = new Date().toLocaleString('ku-IQ');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${product}</td><td>${quantity}</td><td>${date}</td>`;
+            document.getElementById('sale-list').appendChild(row);
+
+            document.getElementById('sale-form').reset();
+        });
+
+        // تۆمارکردنی قەرز
+        document.getElementById('debt-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const debtor = document.getElementById('debtor-name').value;
+            const amount = document.getElementById('debt-amount').value;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${debtor}</td><td>${amount}</td>`;
+            document.getElementById('debt-list').appendChild(row);
+
+            document.getElementById('debt-form').reset();
+        });
+        // تۆمارکردنی ئینڤۆیز
+        document.getElementById('invoice-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const customer = document.getElementById('invoice-customer').value;
+            const product = document.getElementById('invoice-product').value;
+            const quantity = document.getElementById('invoice-quantity').value;
+            const date = new Date().toLocaleString('ku-IQ');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${customer}</td><td>${product}</td><td>${quantity}</td><td>${date}</td>`;
+            document.getElementById('invoice-list').appendChild(row);
+
+            document.getElementById('invoice-form').reset();
+        });
+    </script>
+</body>
+</html>
