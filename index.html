@@ -58,7 +58,7 @@
             margin-bottom: 20px;
         }
 
-        input, button {
+        input, select, button {
             padding: 10px;
             margin: 5px;
             font-size: 16px;
@@ -118,6 +118,7 @@
         <nav>
             <ul>
                 <li><a href="#" onclick="showSection('products')">کاڵاکان</a></li>
+                <li><a href="#" onclick="showSection('customers')">کڕیاران</a></li>
                 <li><a href="#" onclick="showSection('purchases')">کڕین</a></li>
                 <li><a href="#" onclick="showSection('sales')">فرۆشتن</a></li>
                 <li><a href="#" onclick="showSection('debts')">قەرزداران</a></li>
@@ -132,7 +133,7 @@
             <form id="product-form">
                 <input type="text" id="product-name" placeholder="ناوی کاڵا" required>
                 <input type="number" id="product-price" placeholder="نرخی کاڵا" required>
-                <input type="number" id="product-quantity" placeholder="ژمارە" required>
+                <input type="number" id="product-quantity" placeholder="ژمارەی کۆگا" required>
                 <button type="submit">زیادکردنی کاڵا</button>
             </form>
             <table id="product-table">
@@ -140,10 +141,31 @@
                     <tr>
                         <th>ناوی کاڵا</th>
                         <th>نرخ</th>
-                        <th>ژمارە</th>
+                        <th>ژمارەی کۆگا</th>
                     </tr>
                 </thead>
                 <tbody id="product-list"></tbody>
+            </table>
+        </div>
+
+        <!-- بەشی کڕیاران -->
+        <div id="customers" class="section" style="display: none;">
+            <h2>کڕیاران</h2>
+            <form id="customer-form">
+                <input type="text" id="customer-name" placeholder="ناوی کڕیار" required>
+                <input type="text" id="customer-phone" placeholder="ژمارەی تەلەفۆن" required>
+                <input type="text" id="customer-address" placeholder="ناونیشان" required>
+                <button type="submit">زیادکردنی کڕیار</button>
+            </form>
+            <table id="customer-table">
+                <thead>
+                    <tr>
+                        <th>ناوی کڕیار</th>
+                        <th>ژمارەی تەلەفۆن</th>
+                        <th>ناونیشان</th>
+                    </tr>
+                </thead>
+                <tbody id="customer-list"></tbody>
             </table>
         </div>
 
@@ -151,7 +173,9 @@
         <div id="purchases" class="section" style="display: none;">
             <h2>کڕین</h2>
             <form id="purchase-form">
-                <input type="text" id="purchase-product" placeholder="ناوی کاڵا" required>
+                <select id="purchase-product" required>
+                    <option value="">کاڵا هەڵبژێرە</option>
+                </select>
                 <input type="number" id="purchase-quantity" placeholder="ژمارە" required>
                 <button type="submit">تۆمارکردنی کڕین</button>
             </form>
@@ -171,15 +195,26 @@
         <div id="sales" class="section" style="display: none;">
             <h2>فرۆشتن</h2>
             <form id="sale-form">
-                <input type="text" id="sale-product" placeholder="ناوی کاڵا" required>
+                <select id="sale-customer" required>
+                    <option value="">کڕیار هەڵبژێرە</option>
+                </select>
+                <select id="sale-product" required>
+                    <option value="">کاڵا هەڵبژێرە</option>
+                </select>
                 <input type="number" id="sale-quantity" placeholder="ژمارە" required>
+                <select id="sale-payment-status" required>
+                    <option value="paid">پارە واسل کراوە</option>
+                    <option value="debt">قەرز</option>
+                </select>
                 <button type="submit">تۆمارکردنی فرۆشتن</button>
             </form>
             <table id="sale-table">
                 <thead>
                     <tr>
+                        <th>ناوی کڕیار</th>
                         <th>ناوی کاڵا</th>
                         <th>ژمارە</th>
+                        <th>بارودۆخی پارەدان</th>
                         <th>کاتی فرۆشتن</th>
                     </tr>
                 </thead>
@@ -190,15 +225,10 @@
         <!-- بەشی قەرزداران -->
         <div id="debts" class="section" style="display: none;">
             <h2>قەرزداران</h2>
-            <form id="debt-form">
-                <input type="text" id="debtor-name" placeholder="ناوی قەرزدار" required>
-                <input type="number" id="debt-amount" placeholder="بڕی قەرز" required>
-                <button type="submit">تۆمارکردنی قەرز</button>
-            </form>
             <table id="debt-table">
                 <thead>
                     <tr>
-                        <th>ناوی قەرزدار</th>
+                        <th>ناوی کڕیار</th>
                         <th>بڕی قەرز</th>
                     </tr>
                 </thead>
@@ -210,8 +240,12 @@
         <div id="invoices" class="section" style="display: none;">
             <h2>ئینڤۆیز</h2>
             <form id="invoice-form">
-                <input type="text" id="invoice-customer" placeholder="ناوی کڕیار" required>
-                <input type="text" id="invoice-product" placeholder="ناوی کاڵا" required>
+                <select id="invoice-customer" required>
+                    <option value="">کڕیار هەڵبژێرە</option>
+                </select>
+                <select id="invoice-product" required>
+                    <option value="">کاڵا هەڵبژێرە</option>
+                </select>
                 <input type="number" id="invoice-quantity" placeholder="ژمارە" required>
                 <button type="submit">دروستکردنی ئینڤۆیز</button>
             </form>
@@ -221,6 +255,7 @@
                         <th>ناوی کڕیار</th>
                         <th>ناوی کاڵا</th>
                         <th>ژمارە</th>
+                        <th>نرخی کۆی گشتی</th>
                         <th>کات</th>
                     </tr>
                 </thead>
@@ -230,16 +265,28 @@
     </div>
 
     <script>
+        // هەڵگرتنی زانیارییەکان لە localStorage
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        let customers = JSON.parse(localStorage.getItem('customers')) || [];
+        let purchases = JSON.parse(localStorage.getItem('purchases')) || [];
+        let sales = JSON.parse(localStorage.getItem('sales')) || [];
+        let invoices = JSON.parse(localStorage.getItem('invoices')) || [];
+
         // لۆگین
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // لۆجینی سادە (بۆ نموونە)
             if (username === 'admin' && password === '1234') {
                 document.getElementById('login-page').classList.remove('active');
                 document.getElementById('main-page').classList.add('active');
+                loadProducts();
+                loadCustomers();
+                loadPurchases();
+                loadSales();
+                loadDebts();
+                loadInvoices();
             } else {
                 alert('ناوی بەکارهێنەر یان وشەی نهێنی هەڵەیە');
             }
@@ -264,71 +311,207 @@
         document.getElementById('product-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('product-name').value;
-            const price = document.getElementById('product-price').value;
-            const quantity = document.getElementById('product-quantity').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const quantity = parseInt(document.getElementById('product-quantity').value);
 
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${name}</td><td>${price}</td><td>${quantity}</td>`;
-            document.getElementById('product-list').appendChild(row);
-
-            // پاککردنەوەی فۆرم
+            products.push({ name, price, quantity });
+            localStorage.setItem('products', JSON.stringify(products));
+            loadProducts();
             document.getElementById('product-form').reset();
+        });
+
+        // تۆمارکردنی کڕیار
+        document.getElementById('customer-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const address = document.getElementById('customer-address').value;
+
+            customers.push({ name, phone, address, debt: 0 });
+            localStorage.setItem('customers', JSON.stringify(customers));
+            loadCustomers();
+            document.getElementById('customer-form').reset();
         });
 
         // تۆمارکردنی کڕین
         document.getElementById('purchase-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const product = document.getElementById('purchase-product').value;
-            const quantity = document.getElementById('purchase-quantity').value;
+            const productName = document.getElementById('purchase-product').value;
+            const quantity = parseInt(document.getElementById('purchase-quantity').value);
             const date = new Date().toLocaleString('ku-IQ');
 
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${product}</td><td>${quantity}</td><td>${date}</td>`;
-            document.getElementById('purchase-list').appendChild(row);
-
-            document.getElementById('purchase-form').reset();
+            const product = products.find(p => p.name === productName);
+            if (product) {
+                product.quantity += quantity;
+                purchases.push({ product: productName, quantity, date });
+                localStorage.setItem('products', JSON.stringify(products));
+                localStorage.setItem('purchases', JSON.stringify(purchases));
+                loadProducts();
+                loadPurchases();
+                document.getElementById('purchase-form').reset();
+            } else {
+                alert('کاڵا نەدۆزرایەوە');
+            }
         });
 
         // تۆمارکردنی فرۆشتن
         document.getElementById('sale-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const product = document.getElementById('sale-product').value;
-            const quantity = document.getElementById('sale-quantity').value;
+            const customerName = document.getElementById('sale-customer').value;
+            const productName = document.getElementById('sale-product').value;
+            const quantity = parseInt(document.getElementById('sale-quantity').value);
+            const paymentStatus = document.getElementById('sale-payment-status').value;
             const date = new Date().toLocaleString('ku-IQ');
 
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${product}</td><td>${quantity}</td><td>${date}</td>`;
-            document.getElementById('sale-list').appendChild(row);
+            const product = products.find(p => p.name === productName);
+            const customer = customers.find(c => c.name === customerName);
 
-            document.getElementById('sale-form').reset();
+            if (product && customer && product.quantity >= quantity) {
+                product.quantity -= quantity;
+                const totalPrice = product.price * quantity;
+                if (paymentStatus === 'debt') {
+                    customer.debt += totalPrice;
+                }
+                sales.push({ customer: customerName, product: productName, quantity, paymentStatus, date });
+                localStorage.setItem('products', JSON.stringify(products));
+                localStorage.setItem('customers', JSON.stringify(customers));
+                localStorage.setItem('sales', JSON.stringify(sales));
+                loadProducts();
+                loadCustomers();
+                loadSales();
+                loadDebts();
+                document.getElementById('sale-form').reset();
+            } else {
+                alert('کاڵا یان کڕیار نەدۆزرایەوە، یان ژمارەی کاڵا کەمە');
+            }
         });
 
-        // تۆمارکردنی قەرز
-        document.getElementById('debt-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const debtor = document.getElementById('debtor-name').value;
-            const amount = document.getElementById('debt-amount').value;
-
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${debtor}</td><td>${amount}</td>`;
-            document.getElementById('debt-list').appendChild(row);
-
-            document.getElementById('debt-form').reset();
-        });
         // تۆمارکردنی ئینڤۆیز
         document.getElementById('invoice-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const customer = document.getElementById('invoice-customer').value;
-            const product = document.getElementById('invoice-product').value;
-            const quantity = document.getElementById('invoice-quantity').value;
+            const customerName = document.getElementById('invoice-customer').value;
+            const productName = document.getElementById('invoice-product').value;
+            const quantity = parseInt(document.getElementById('invoice-quantity').value);
             const date = new Date().toLocaleString('ku-IQ');
 
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${customer}</td><td>${product}</td><td>${quantity}</td><td>${date}</td>`;
-            document.getElementById('invoice-list').appendChild(row);
-
-            document.getElementById('invoice-form').reset();
+            const product = products.find(p => p.name === productName);
+            if (product && quantity <= product.quantity) {
+                const totalPrice = product.price * quantity;
+                invoices.push({ customer: customerName, product: productName, quantity, totalPrice, date });
+                localStorage.setItem('invoices', JSON.stringify(invoices));
+                loadInvoices();
+                document.getElementById('invoice-form').reset();
+            } else {
+                alert('کاڵا نەدۆزرایەوە یان ژمارەی کاڵا کەمە');
+            }
         });
+
+        // لادانی کاڵاکان
+        function loadProducts() {
+            const productList = document.getElementById('product-list');
+            const purchaseProductSelect = document.getElementById('purchase-product');
+            const saleProductSelect = document.getElementById('sale-product');
+            const invoiceProductSelect = document.getElementById('invoice-product');
+
+            productList.innerHTML = '';
+            purchaseProductSelect.innerHTML = '<option value="">کاڵا هەڵبژێرە</option>';
+            saleProductSelect.innerHTML = '<option value="">کاڵا هەڵبژێرە</option>';
+            invoiceProductSelect.innerHTML = '<option value="">کاڵا هەڵبژێرە</option>';
+
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${product.name}</td><td>${product.price}</td><td>${product.quantity}</td>`;
+                productList.appendChild(row);
+
+                const option1 = document.createElement('option');
+                option1.value = product.name;
+                option1.textContent = product.name;
+                purchaseProductSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = product.name;
+                option2.textContent = product.name;
+                saleProductSelect.appendChild(option2);
+
+                const option3 = document.createElement('option');
+                option3.value = product.name;
+                option3.textContent = product.name;
+                invoiceProductSelect.appendChild(option3);
+            });
+        }
+
+        // لادانی کڕیاران
+        function loadCustomers() {
+            const customerList = document.getElementById('customer-list');
+            const saleCustomerSelect = document.getElementById('sale-customer');
+            const invoiceCustomerSelect = document.getElementById('invoice-customer');
+
+            customerList.innerHTML = '';
+            saleCustomerSelect.innerHTML = '<option value="">کڕیار هەڵبژێرە</option>';
+            invoiceCustomerSelect.innerHTML = '<option value="">کڕیار هەڵبژێرە</option>';
+
+            customers.forEach(customer => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${customer.name}</td><td>${customer.phone}</td><td>${customer.address}</td>`;
+                customerList.appendChild(row);
+
+                const option1 = document.createElement('option');
+                option1.value = customer.name;
+                option1.textContent = customer.name;
+                saleCustomerSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = customer.name;
+                option2.textContent = customer.name;
+                invoiceCustomerSelect.appendChild(option2);
+            });
+        }
+
+        // لادانی کڕینەکان
+        function loadPurchases() {
+            const purchaseList = document.getElementById('purchase-list');
+            purchaseList.innerHTML = '';
+            purchases.forEach(purchase => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${purchase.product}</td><td>${purchase.quantity}</td><td>${purchase.date}</td>`;
+                purchaseList.appendChild(row);
+            });
+        }
+
+        // لادانی فرۆشتنەکان
+        function loadSales() {
+            const saleList = document.getElementById('sale-list');
+            saleList.innerHTML = '';
+            sales.forEach(sale => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${sale.customer}</td><td>${sale.product}</td><td>${sale.quantity}</td><td>${sale.paymentStatus === 'paid' ? 'پارە واسل کراوە' : 'قەرز'}</td><td>${sale.date}</td>`;
+                saleList.appendChild(row);
+            });
+        }
+
+        // لادانی قەرزداران
+        function loadDebts() {
+            const debtList = document.getElementById('debt-list');
+            debtList.innerHTML = '';
+            customers.forEach(customer => {
+                if (customer.debt > 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${customer.name}</td><td>${customer.debt}</td>`;
+                    debtList.appendChild(row);
+                }
+            });
+        }
+
+        // لادانی ئینڤۆیزەکان
+        function loadInvoices() {
+            const invoiceList = document.getElementById('invoice-list');
+            invoiceList.innerHTML = '';
+            invoices.forEach(invoice => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${invoice.customer}</td><td>${invoice.product}</td><td>${invoice.quantity}</td><td>${invoice.totalPrice}</td><td>${invoice.date}</td>`;
+                invoiceList.appendChild(row);
+            });
+        }
     </script>
 </body>
 </html>
